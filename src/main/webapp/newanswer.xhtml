@@ -1,0 +1,41 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    template="/WEB-INF/templates/encuesta.xhtml">
+
+<ui:define name="content">    
+<h:form>
+            <h2><h:outputText value="#{bundle['newanswer.title']}:" /></h2>
+                <h:outputLabel value="#{bundle['create.fieldvalue']}:" />
+            <h:panelGrid columns="2" columnClasses="titleCell">
+                <h:outputLabel value="#{newAsk.content}:" />
+            	<h3><h:outputText style="tip" value="#{bundle['newanswer.intructions']}" /></h3>
+            	#{newAnswer.valuemax}
+            	#{newAnswer.idAnswer}
+                <h:inputTextarea id="valuemax" value="#{newAnswer.valuemax}" />
+                <c:choose>
+                	<c:when test="#{newAsk.typeanswer}=='selectManyCheckboxOther'}">
+                		<h:outputText style="tip" value="#{bundle['tip.selectManyCheckboxOther']}" />
+                	</c:when>
+                </c:choose>
+            </h:panelGrid>
+            <p>
+                <h:panelGrid columns="2">
+                    <h:commandButton id="register"
+                        action="#{answerController.create}"
+                        value="#{bundle['boton.create']}" styleClass="create" />
+                    <h:messages styleClass="messages"
+                        errorClass="invalid" infoClass="valid"
+                        warnClass="warning" globalOnly="true" />
+                    <h:commandButton id="finish"
+                        action="newask"
+                        value="#{bundle['boton.finish']}" styleClass="create" />
+                </h:panelGrid>
+            </p>    
+</h:form>
+</ui:define>
+</ui:composition>

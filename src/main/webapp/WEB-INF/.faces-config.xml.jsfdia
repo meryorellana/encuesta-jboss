@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PROCESS model-entity="JSFProcess">
+ <PROCESS-ITEM NAME="rules:#listtest.xhtml" PATH="/listtest.xhtml"
+  SHAPE="32,17,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#listtest.xhtml:0" NAME="item"
+   PATH="/listtest.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="listtest:#{userController.login}:#listtest.xhtml" NAME="output"
+    PATH="/listtest.xhtml" TARGET="rules:#listtest.xhtml"
+    TITLE="#{userController.login}:listtest" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+ <PROCESS-ITEM NAME="rules:#newtest.xhtml" PATH="/newtest.xhtml"
+  SHAPE="240,33,0,0" model-entity="JSFProcessGroup">
+  <PROCESS-ITEM ID="rules:#newtest.xhtml:0" NAME="item"
+   PATH="/newtest.xhtml" model-entity="JSFProcessItem">
+   <PROCESS-ITEM-OUTPUT
+    ID="newtest:#{testController.create}:#newtest.xhtml" NAME="output"
+    PATH="/newtest.xhtml" TARGET="rules:#newtest.xhtml"
+    TITLE="#{testController.create}:newtest" model-entity="JSFProcessItemOutput"/>
+  </PROCESS-ITEM>
+ </PROCESS-ITEM>
+</PROCESS>

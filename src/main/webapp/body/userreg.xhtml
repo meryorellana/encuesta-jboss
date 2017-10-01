@@ -1,0 +1,55 @@
+ <ui:component xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+               xmlns:c="http://java.sun.com/jstl/core">
+        <h:form>
+        <h:panelGroup rendered="${sessionScope.newTest!=null}">
+        	<h2 >#{bundle['h2.registerpolled']}</h2>
+        </h:panelGroup>
+        <h:panelGroup rendered="${sessionScope.newTest==null}">
+        	<h2>#{bundle['h2.registeruser']}</h2>
+        </h:panelGroup>
+            
+            <h:panelGrid columns="3" columnClasses="titleCell">
+                <h:outputLabel for="name" value="#{bundle['company']}:" />
+                <h:inputText id="name" value="#{newUser.name}" />
+                <h:message for="name" errorClass="invalid" />
+
+                <h:outputLabel for="email" value="#{bundle['email']}:" />
+                <h:inputText id="email" value="#{newUser.email}"/>
+                <h:message for="email" errorClass="invalid" />
+
+                <h:outputLabel for="address" value="#{bundle['address']}:" />
+                <h:inputText id="address"
+                    value="#{newUser.address}" />
+                <h:message for="address" errorClass="invalid" />
+                
+                <h:outputLabel for="address" value="#{bundle['phonenumber']}:" />
+                <h:inputText id="phonenumber"
+                    value="#{newUser.phonenumber}" />
+                <h:message for="phonenumber" errorClass="invalid" />
+                
+                <h:outputLabel for="name2" value="#{bundle['contact']}:" />
+                <h:inputText id="name2"
+                    value="#{newUser.name2}" />
+                <h:message for="name2" errorClass="invalid" />
+                
+                <h:outputLabel rendered="${sessionScope.newTest==null}" for="password" value="#{bundle['password']}:" />
+                <h:inputSecret rendered="${sessionScope.newTest==null}" id="password" value="#{newUser.password}" />
+                <h:message rendered="${sessionScope.newTest==null}" for="password" errorClass="invalid" />
+                
+            </h:panelGrid>
+
+            <p>
+                <h:panelGrid columns="2">
+                    <h:commandButton id="register"
+                        action="#{userController.register}"
+                        value="#{bundle['register']}" styleClass="register" />
+                    <h:messages styleClass="messages"
+                        errorClass="invalid" infoClass="valid"
+                        warnClass="warning" globalOnly="true" />
+                </h:panelGrid>
+            </p>
+        </h:form>
+</ui:component>
