@@ -1,0 +1,81 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<H1>#{sessionScope.newTest.name}</H1>
+<br/>
+<h:outputLabel value="#{sessionScope.newTest.description}"/>
+<br/>
+<h:form>
+        <table id="test" >
+          <c:forEach items="#{sessionScope.newTest.asks}" var="item" varStatus="ind">
+                <tr>
+                     <td id="listatest" >
+						<h:outputText value="#{item['content']}"/>
+                     </td>
+                </tr>
+                <tr><td id="valuetest">
+                	<c:choose>
+                		<c:when test="#{item['typeanswer']=='inputSecret'}">
+                			<h:inputSecret disabled="disabled"/>
+                		</c:when>
+                		<c:when test="#{item['typeanswer']=='inputTextarea'}">
+                			<h:inputTextarea disabled="disabled"/>
+                		</c:when>
+                		<c:when test="#{item['typeanswer']=='yesno'}">
+                			<h:selectOneRadio>
+                				<f:selectItem itemLabel="#{bundle['yes']}" itemValue="1" />
+   								<f:selectItem itemLabel="#{bundle['no']}" itemValue="0" />
+                			</h:selectOneRadio>
+                		</c:when>
+                		<c:when test="#{item['typeanswer']=='yesnoWhy'}">
+                			<h:selectOneRadio>
+                				<f:selectItem itemValue="1" itemLabel="#{bundle['yes']}" />
+   								<f:selectItem itemValue="0" itemLabel="#{bundle['no']}" />
+                			</h:selectOneRadio>
+                			<h:outputText value="#{bundle['why']}" />
+   							<h:inputText disabled="disabled" />
+                		</c:when>
+                		<c:when test="#{item['typeanswer']=='selectOneRadio'}">
+                			<h:selectOneRadio value ="#{anstest.optionstypeanswer}">
+                				<c:forEach items="#{item['answers']}" var="ans">
+           							<f:selectItems value="#{ans.splitvaluemax}"/>
+           						</c:forEach>
+                			</h:selectOneRadio>
+                		</c:when>
+                		<c:when test="#{item['typeanswer']=='selectManyCheckbox'}">
+                			<h:selectManyCheckbox>
+                				<c:forEach items="#{item['answers']}" var="ans">
+           							<f:selectItems value="#{ans.splitvaluemax}"/>
+           						</c:forEach>
+                			</h:selectManyCheckbox>
+                		</c:when>
+                		<c:when test="#{item['typeanswer']=='selectManyCheckboxOther'}">
+                			<h:selectManyCheckbox>
+                				<c:forEach items="#{item['answers']}" var="ans">
+           							<f:selectItems value="#{ans.splitvaluemax}"/>
+           						</c:forEach>
+                			</h:selectManyCheckbox>
+                			<h:outputText value="#{bundle['other']}" />
+   							<h:inputText disabled="disabled" />
+                		</c:when>
+                		<c:otherwise>
+                			<h:inputText disabled="disabled" />
+                		</c:otherwise>
+                	</c:choose>
+                </td>
+                <td id="desccart">  <h:commandLink action="#{askController.editAsk}" value="#{bundle['boton.edit']}">
+                    	<f:param name="key" value="#{item['idAsk']}" />
+                    </h:commandLink> / 
+                    <h:commandLink action="#{askController.deleteAsk}" value="#{bundle['boton.del']}">
+                    	<f:param name="key" value="#{item['idAsk']}" />
+                    </h:commandLink>
+                 </td>
+                </tr>
+                </c:forEach>
+        </table>
+</h:form>        
+</ui:composition>

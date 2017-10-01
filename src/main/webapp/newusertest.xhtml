@@ -1,0 +1,93 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    template="/WEB-INF/templates/encuesta.xhtml">
+<ui:define name="content">    
+
+<h2>#{sessionScope.newTestdesc.name}</h2>
+<div style="desctest">#{sessionScope.newTestdesc.description}</div>
+<br/>
+<h:form>    
+        <table id="test" >
+                <tr>
+                     <td>
+						#{sessionScope.newAsk.content}
+                     </td>
+                </tr>
+                <tr><td>
+                	<c:choose>
+                		<c:when test="#{sessionScope.newAsk.typeanswer=='inputSecret'}">
+                			<h:inputSecret id="value" value ="#{anstest.value}"/>
+                			<h:message for="value" errorClass="invalid" />
+                		</c:when>
+                		<c:when test="#{sessionScope.newAsk.typeanswer=='inputTextarea'}">
+                			<h:inputTextarea id="value" value ="#{anstest.value}"/>
+                			<h:message for="value" errorClass="invalid" />
+                		</c:when>
+                		<c:when test="#{sessionScope.newAsk.typeanswer=='yesno'}">
+                			<h:selectOneRadio id="value" value ="#{anstest.value}">
+                				<f:selectItem itemValue="#{bundle['yes']}" itemLabel="#{bundle['yes']}" />
+   								<f:selectItem itemValue="#{bundle['no']}" itemLabel="#{bundle['no']}" />
+                			</h:selectOneRadio>
+                			<h:message for="value" errorClass="invalid" />
+                		</c:when>
+                		<c:when test="#{item.idAsk.typeanswer=='yesnoWhy'}">
+                			<h:selectOneRadio value="#{item.value}">
+                				<f:selectItem itemValue="1" itemLabel="#{bundle['yes']}" />
+   								<f:selectItem itemValue="0" itemLabel="#{bundle['no']}" />
+                			</h:selectOneRadio>
+                			<h:outputText value="#{bundle['why']}" />
+   							<h:inputText id="value#{ind.index}" value="#{item.value}" />
+                		</c:when>
+                		<c:when test="#{sessionScope.newAsk.typeanswer=='selectOneRadio'}">
+                			<h:selectOneRadio id="idOptionans" value ="#{anstest.idOptionans}">
+                				<c:forEach items="#{sessionScope.newAsk.answers}" var="ans">
+           							<f:selectItems value="#{ans.splitvaluemax}"/>
+           						</c:forEach>                
+           					</h:selectOneRadio>
+                			<h:message for="optionstypeanswer" errorClass="invalid" />
+                		</c:when>
+                		<c:when test="#{sessionScope.newAsk.typeanswer=='selectManyCheckbox'}">
+                			<h:selectManyCheckbox id="optionstypeanswer" value ="#{anstest.optionstypeanswer}">
+                				<c:forEach items="#{sessionScope.newAsk.answers}" var="ans">
+           							<f:selectItems value="#{ans.splitvaluemax}"/>
+           						</c:forEach>                
+                			</h:selectManyCheckbox>
+                			<h:message for="optionstypeanswer" errorClass="invalid" />
+                		</c:when>
+                		<c:when test="#{sessionScope.newAsk.typeanswer=='selectManyCheckboxOther'}">
+                			<h:selectManyCheckbox id="optionstypeanswer" value ="#{anstest.optionstypeanswer}">
+                				<c:forEach items="#{sessionScope.newAsk.answers}" var="ans">
+           							<f:selectItems value="#{ans.splitvaluemax}"/>
+           						</c:forEach>                
+                   			</h:selectManyCheckbox>
+               				<h:message for="optionstypeanswer" errorClass="invalid" />
+                			<h:outputText value="#{bundle['other']}" />
+   							<h:inputText id="value" value ="#{anstest.value}"/>
+                		</c:when>
+                		<c:otherwise>
+                			<h:inputText id="value" value ="#{anstest.value}"/>
+                			<h:message for="value" errorClass="invalid" />
+                		</c:otherwise>
+                	</c:choose>
+                </td></tr>
+        </table>
+<c:choose>
+	<c:when test="(#{sessionScope.newTestdesc.countask} - #{sessionScope.countask})== 1">
+		<h:commandButton action="#{userTestAskAnswerController.registerOne}" value="#{bundle['boton.finish']}" />	
+	</c:when>
+	<c:otherwise>
+		<h:commandButton action="#{userTestAskAnswerController.registerOne}" value="#{bundle['boton.next']}" />	
+	</c:otherwise>
+
+</c:choose>
+ <h:messages styleClass="messages"
+                        errorClass="invalid" infoClass="valid"
+                        warnClass="warning" globalOnly="true" />
+</h:form>
+</ui:define>
+</ui:composition>

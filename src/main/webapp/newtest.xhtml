@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    template="/WEB-INF/templates/encuesta.xhtml">
+<ui:define name="content">    
+
+<h2>#{bundle['newtest.title']}:</h2>
+<h:form>
+            
+            <h:panelGrid columns="3" columnClasses="titleCell">
+                <h:outputLabel value="#{bundle['test.name']}:" />
+                <h:inputText id="name" value="#{newTest.name}" />
+                <h:message for="name" errorClass="invalid" />
+
+                <h:outputLabel for="description" value="#{bundle['test.description']}:" />
+                <h:inputText id="description" value="#{newTest.description}" />
+                <h:message for="description" errorClass="invalid" />
+
+                <h:outputLabel for="isAnonymous" value="#{bundle['test.isAnonymous']}:" />
+                <h:selectOneRadio id ="isAnonymous" value="#{newTest.isAnonymous}">
+                				<f:selectItem itemValue="1" itemLabel="#{bundle['yes']}" />
+   								<f:selectItem itemValue="0" itemLabel="(*) #{bundle['no']}" />
+                </h:selectOneRadio>
+                <h:message for="isAnonymous" errorClass="invalid" />
+                
+                <h:outputLabel for="dateInit" value="#{bundle['test.dateini']}:" />
+                <input name = "dateInit" id="dateInit" value="#{newTest.dateInit}" type="date" />
+                <h:message for="dateInit" errorClass="invalid" />
+                
+                <h:outputLabel for="dateFin" value="#{bundle['test.datefin']}:" />
+                <input  type="date" id ="dateFin" name = "dateFin" value="#{newTest.dateFin}"/>
+                <h:message for="dateFin" errorClass="invalid" />
+                
+                <h:outputLabel for="langIso" value="#{bundle['test.langIso']}:" />
+                <h:selectOneRadio id ="langIso" value="#{newTest.langIso}">
+                				<f:selectItem itemValue="es" itemLabel="Español" />
+   								<f:selectItem itemValue="en" itemLabel="English" />
+                </h:selectOneRadio>
+                <h:message for="isAnonymous" errorClass="invalid" />
+                
+                
+            </h:panelGrid>
+            <div id="tip"> (*) #{bundle['test.tipanony']}</div>
+            <p>
+                <h:panelGrid columns="2">
+                    <h:commandButton id="register" rendered="#{sessionScope.newTestEdit==null}"
+                        action="#{testController.create}"
+                        value="#{bundle['boton.create']}" styleClass="create" />
+                    <h:commandButton id="edit" rendered="#{sessionScope.newTestEdit!=null}"
+                        action="#{testController.create}"
+                        value="#{bundle['boton.edit']}" styleClass="create" />
+                    <h:messages styleClass="messages"
+                        errorClass="invalid" infoClass="valid"
+                        warnClass="warning" globalOnly="true" />
+                </h:panelGrid>
+            </p>    
+</h:form>
+</ui:define>
+</ui:composition>

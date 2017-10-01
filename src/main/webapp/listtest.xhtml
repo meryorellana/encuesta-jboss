@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    template="/WEB-INF/templates/encuesta.xhtml">
+
+<ui:define name="content">   
+<h2>#{bundle['welcome']} #{sessionScope.newUser.name}</h2>
+<br/>
+<h:form>    
+<c:choose>
+    <c:when test="${counttest}">
+        <table width="100%" id="test" >
+            <thead>
+                <tr><th width="30%"><h:outputLabel value="#{bundle['test.name']}"/></th>
+                    <th width="40%"><h:outputLabel value="#{bundle['test.description']}"/>	</th>
+                    <th width="10%"></th>
+                    <th width="20%"></th></tr>
+            </thead>
+                <c:forEach items="#{sessionScope.newUser.tests}" var="item">
+                <tr>
+                    <td><h:outputLabel value="#{item['name']}"/></td>
+                    <td><h:outputText value="#{item['description']}"/></td>
+                    <td id="desccart" ><h:commandLink action="#{testController.allTest}">
+                    					<f:param name="key" value="#{item.idTest}" />
+                    					<h:outputText value="${testController.countAnswer(item['idTest'])}"/></h:commandLink> #{bundle['response']}</td>
+                    <td id="desccart" >
+                    	<c:if test="${testController.bcountAnswer(item['idTest'])}">
+		                    <h:commandLink action="#{testController.delTest}" value="#{bundle['boton.del']}">
+		                    	<f:param name="key" value="#{item.idTest}" /> / 
+		                    </h:commandLink>
+		                    <h:commandLink action="#{testController.editTestDesc}" value="#{bundle['boton.edit']}">
+		                    	<f:param name="key" value="#{item.idTest}" />
+		                    </h:commandLink> / 
+		                    <h:commandLink action="#{testController.editTest}" value="#{bundle['editask']}">
+		                    	<f:param name="key" value="#{item.idTest}" />
+		                    	<f:param name="fill" value="0" />
+		                    </h:commandLink> / 
+                    	</c:if>
+                    <h:commandLink action="#{testController.editTest}" value="#{bundle['boton.fill']}">
+                    	<f:param name="key" value="#{item.idTest}" />
+                    	<f:param name="fill" value="1" />
+                    </h:commandLink> / 
+                    <h:commandLink action="#{testController.editTest}" value="#{bundle['boton.fill']} (*)">
+                    	<f:param name="key" value="#{item.idTest}" />
+                    	<f:param name="fill" value="2" />
+                    </h:commandLink> 
+                    </td>
+                </tr>
+                </c:forEach>
+        </table>
+    </c:when>
+    <c:otherwise>
+    	<div><h:outputLabel value="#{bundle['notest']}"/></div>
+    </c:otherwise>
+</c:choose>
+ <br style="register"/>       
+        <h:commandButton id="register" action="newtest" value="#{bundle['boton.create']}"/>
+</h:form>
+</ui:define>
+</ui:composition>

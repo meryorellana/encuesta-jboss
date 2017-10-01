@@ -1,0 +1,108 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:f="http://java.sun.com/jsf/core"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions">
+
+<H2>#{sessionScope.newTest.name}</H2>
+<br/>
+<h:outputText value="#{sessionScope.newTest.description}"/>
+<br/>
+<h:form>
+
+	<h:panelGroup rendered="#{sessionScope.newTest.blAnonymous == true}">
+        	<h2>#{bundle['h2.registerpolled']}</h2>
+            
+            <h:panelGrid columns="3" columnClasses="titleCell">
+                <h:outputLabel for="name" value="#{bundle['company']}:" />
+                <h:inputText id="name" value="#{pagetest.userTest.name}" />
+                <h:message for="name" errorClass="invalid" />
+
+                <h:outputLabel for="email" value="#{bundle['email']}:" />
+                <h:inputText id="email" value="#{pagetest.userTest.email}"/>
+                <h:message for="email" errorClass="invalid" />
+
+                <h:outputLabel for="address" value="#{bundle['address']}:" />
+                <h:inputText id="address"
+                    value="#{pagetest.userTest.address}" />
+                <h:message for="address" errorClass="invalid" />
+                
+                <h:outputLabel for="address" value="#{bundle['phonenumber']}:" />
+                <h:inputText id="phonenumber"
+                    value="#{pagetest.userTest.phonenumber}" />
+                <h:message for="phonenumber" errorClass="invalid" />
+                
+                <h:outputLabel for="name2" value="#{bundle['contact']}:" />
+                <h:inputText id="name2"
+                    value="#{pagetest.userTest.name2}" />
+                <h:message for="name2" errorClass="invalid" />
+            </h:panelGrid>
+   </h:panelGroup>
+<br/>
+
+        <table id="test" >
+          <c:forEach items="#{pagetest.listanswer}" var="item" varStatus="ind">
+                <tr>
+                     <td id="listatest" >
+						#{item.idAsk.content}
+                     </td>
+                </tr>
+                <tr><td id="valuetest">
+                	<c:choose>
+                		<c:when test="#{item.idAsk.typeanswer=='inputSecret'}">
+                			<h:inputSecret value="#{item.value}"/>
+                		</c:when>
+                		<c:when test="#{item.idAsk.typeanswer=='inputTextarea'}">
+                			<h:inputTextarea value="#{item.value}"/>
+                		</c:when>
+                		<c:when test="#{item.idAsk.typeanswer=='yesno'}">
+                			<h:selectOneRadio value="#{item.value}">
+                				<f:selectItem itemValue="1" itemLabel="#{bundle['yes']}" />
+   								<f:selectItem itemValue="0" itemLabel="#{bundle['no']}" />
+                			</h:selectOneRadio>
+                		</c:when>
+                		<c:when test="#{item.idAsk.typeanswer=='yesnoWhy'}">
+                			<h:selectOneRadio value="#{item.value}">
+                				<f:selectItem itemValue="1" itemLabel="#{bundle['yes']}" />
+   								<f:selectItem itemValue="0" itemLabel="#{bundle['no']}" />
+                			</h:selectOneRadio>
+                			<h:outputText value="#{bundle['why']}" />
+   							<h:inputText id="value#{ind.index}" value="#{item.value}" />
+                		</c:when>
+                		<c:when test="#{item.idAsk.typeanswer=='selectOneRadio'}">
+                			<h:selectOneRadio value="#{item.idOptionans}" style="radio">
+                				<c:forEach items="#{item.idAsk.answers}" var="ans">
+                					<f:selectItems value="#{ans.splitvaluemax}"/>
+                				</c:forEach>
+                			</h:selectOneRadio>
+                		</c:when>
+                		<c:when test="#{item.idAsk.typeanswer=='selectManyCheckbox'}">
+                			<h:selectManyCheckbox value="#{item.optionstypeanswer}">
+                				<c:forEach items="#{item.idAsk.answers}" var="ans">
+                					<f:selectItems value="#{ans.splitvaluemax}"/>
+                				</c:forEach>
+                			</h:selectManyCheckbox>
+                		</c:when>
+                		<c:when test="#{item.idAsk.typeanswer=='selectManyCheckboxOther'}">
+                			<h:selectManyCheckbox value="#{item.optionstypeanswer}">
+                				<c:forEach items="#{item.idAsk.answers}" var="ans">
+                					<f:selectItems value="#{ans.splitvaluemax}"/>
+                				</c:forEach>
+                			</h:selectManyCheckbox>
+                			<h:outputText value="#{bundle['other']}" />
+   							<h:inputText id="value#{ind.index}" value="#{item.value}" />
+                		</c:when>
+                		<c:otherwise>
+                			<h:inputText id="value#{ind.index}" value="#{item.value}"/>
+                		</c:otherwise>
+                	</c:choose>
+                </td>
+                </tr>
+                </c:forEach>
+                <tr><td> <h:commandButton action="#{userFillTestController.filltest}" value="#{bundle['boton.finish']}" /> </td>
+                	<td>  <h:messages styleClass="messages"  errorClass="invalid" infoClass="valid" warnClass="warning" globalOnly="true" /></td>
+                </tr>
+        </table>
+</h:form>        
+</ui:composition>

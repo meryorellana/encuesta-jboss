@@ -1,0 +1,73 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:ui="http://java.sun.com/jsf/facelets"
+    xmlns:h="http://java.sun.com/jsf/html"
+    xmlns:c="http://java.sun.com/jsp/jstl/core"
+    xmlns:fn="http://java.sun.com/jsp/jstl/functions"
+    template="/WEB-INF/templates/encuesta.xhtml">
+<ui:define name="content">
+<div style="titletest">    
+<h2><h:outputText value="#{sessionScope.newTest.name}"/></h2>
+</div>
+<h:form>   
+<h3><h:outputLabel value="#{sessionScope.newTest.description}"/></h3>
+<br/>
+<br/>
+<br/>
+<br/>
+<c:forEach items="#{sessionScope.pagetest}" var="item">
+	<c:if test="item.userTest.test.isAnonymous=='0'">
+            <h:panelGrid columns="2" columnClasses="titleCell">
+                <h:outputLabel for="name" value="#{bundle['company']}:" />
+                <h:outputText id="name" value="#{item.userTest.user.name}" />
+
+                <h:outputLabel for="email" value="#{bundle['email']}:" />
+                <h:outputText id="email" value="#{item.userTest.user.email}"/>
+
+                <h:outputLabel for="address" value="#{bundle['address']}:" />
+                <h:outputText id="address"
+                    value="#{item.userTest.user.address}" />
+                
+                <h:outputLabel for="address" value="#{bundle['phonenumber']}:" />
+                <h:outputText id="phonenumber"
+                    value="#{item.userTest.user.phonenumber}" />
+                
+                <h:outputLabel for="name2" value="#{bundle['contact']}:" />
+                <h:outputText id="name2"
+                    value="#{item.userTest.user.name2}" />
+            </h:panelGrid>
+		
+	</c:if>
+    <h:outputText value="#{item.userTest.ipaddress}" />
+	<table id="test" >
+		<c:forEach items="#{item.listanswer}" var="ans" >
+                <tr>
+                     <td id="listatest" >
+						<h:outputLabel value="#{ans.idAsk.content}"/>
+                     </td>
+                </tr>
+                <tr><td id="valuetest">
+                	<c:choose>
+                		<c:when test="#{ans.idAsk.typeanswer=='selectManyCheckbox'}">
+							<c:forEach items="#{ans.optionstypeanswer}" var="opts">
+								<h:outputText value="#{opts}"/>
+							</c:forEach>                			
+                		</c:when>
+                		<c:when test="#{ans.idAsk.typeanswer=='selectManyCheckboxOther'}">
+							<c:forEach items="#{ans.optionstypeanswer}" var="opts">
+								<h:outputText value="#{opts}"/>&nbsp;, &nbsp;
+							</c:forEach>                			
+   							<h:outputText value="#{ans.value}" />
+                		</c:when>
+                		<c:otherwise>
+                			<h:outputText value="#{ans.value}" />
+                		</c:otherwise>
+                	</c:choose>
+                </td>
+                </tr>
+          </c:forEach>
+    </table>
+</c:forEach>
+</h:form>
+</ui:define>
+</ui:composition>
